@@ -5,6 +5,8 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
+use Doctrine\Common\Collections\ArrayCollection;
+
 /**
  * Abonne
  *
@@ -53,9 +55,26 @@ class Bonobo
     /**
      * Constructor
      */
-    public function __construct()
-    {
 
+	/**
+     * Liste des Bonobo qui sont amis avec ce Bonobo
+     * @ORM\ManyToMany(targetEntity="Bonobo", mappedBy="myFriends")
+     */
+    private $friendsWithMe;
+
+    /**
+     * La liste des Bonobo
+     * @ORM\ManyToMany(targetEntity="Bonobo", inversedBy="friendsWithMe")
+     * @ORM\JoinTable(name="friends",
+     *      joinColumns={@ORM\JoinColumn(name="bonobo_id", referencedColumnName="id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="friend_bonobo_id", referencedColumnName="id")}
+     *      )
+     */
+    private $myFriends;
+
+    public function __construct() {
+        $this->friendsWithMe = new ArrayCollection();
+        $this->myFriends = new ArrayCollection();
     }
 
 
@@ -163,5 +182,73 @@ class Bonobo
     public function getFood()
     {
         return $this->food;
+    }
+
+    /**
+     * Add friendsWithMe
+     *
+     * @param \AppBundle\Entity\Bonobo $friendsWithMe
+     *
+     * @return Bonobo
+     */
+    public function addFriendsWithMe(\AppBundle\Entity\Bonobo $friendsWithMe)
+    {
+        $this->friendsWithMe[] = $friendsWithMe;
+
+        return $this;
+    }
+
+    /**
+     * Remove friendsWithMe
+     *
+     * @param \AppBundle\Entity\Bonobo $friendsWithMe
+     */
+    public function removeFriendsWithMe(\AppBundle\Entity\Bonobo $friendsWithMe)
+    {
+        $this->friendsWithMe->removeElement($friendsWithMe);
+    }
+
+    /**
+     * Get friendsWithMe
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getFriendsWithMe()
+    {
+        return $this->friendsWithMe;
+    }
+
+    /**
+     * Add myFriend
+     *
+     * @param \AppBundle\Entity\Bonobo $myFriend
+     *
+     * @return Bonobo
+     */
+    public function addMyFriend(\AppBundle\Entity\Bonobo $myFriend)
+    {
+        $this->myFriends[] = $myFriend;
+
+        return $this;
+    }
+
+    /**
+     * Remove myFriend
+     *
+     * @param \AppBundle\Entity\Bonobo $myFriend
+     */
+    public function removeMyFriend(\AppBundle\Entity\Bonobo $myFriend)
+    {
+        $this->myFriends->removeElement($myFriend);
+    }
+
+    /**
+     * Get myFriends
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getMyFriends()
+    {
+        return $this->myFriends;
     }
 }
