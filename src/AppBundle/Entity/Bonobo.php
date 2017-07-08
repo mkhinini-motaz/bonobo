@@ -72,6 +72,22 @@ class Bonobo
      */
     private $myFriends;
 
+    /**
+     * Liste des Bonobo qui sont de la même famille que ce Bonobo
+     * @ORM\OneToMany(targetEntity="Family", mappedBy="myFamily")
+     * @ORM\JoinTable(name="family")
+     */
+    private $familyWithMe;
+
+    /**
+     * La liste des Bonobo
+     * @ORM\OneToMany(targetEntity="Family", mappedBy="familyWithMe")
+     * @ORM\JoinTable(name="family")
+     */
+    private $myFamily;
+
+
+
     public function __construct() {
         $this->friendsWithMe = new ArrayCollection();
         $this->myFriends = new ArrayCollection();
