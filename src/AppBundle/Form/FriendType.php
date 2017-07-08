@@ -10,7 +10,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\BirthdayType;
 
-class BonoboType extends AbstractType
+class FriendType extends AbstractType
 {
     /**
      * {@inheritdoc}
@@ -19,8 +19,8 @@ class BonoboType extends AbstractType
     {
         $builder->add('name', TextType::class, ["label" => "Nom"])
 		->add('race', TextType::class, ["label" => "Race"])
-		->add('food', TextType::class, ["label" => "Nourriture"])
-        ->add('account', AccountType::class, ["label" => false]);
+		->add('food', TextType::class, ["label" => "Nourriture"]);
+        
     }
 
     /**

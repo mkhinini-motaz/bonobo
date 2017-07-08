@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Ajouter ami
+{% endblock %}
+
+{% block body %}
+<div class="row">
+
+    <div class="col-sm-6 col-sm-offset-3 col-xs-12">
+
+            <h1>Ajouter un ami à votre liste d'amis</h1>
+
+            {{ form_start(form) }}
+            {{ form_widget(form) }}
+            <button type="submit" class="btn btn-primary">
+                Ajouter
+                <span class="glyphicon glyphicon-plus"></span>
+            </button>
+            </br></br>
+            <a class="btn btn-success" href="{{ path('homepage') }}"><span class="ion-reply"></span> Revenir à la page d'accueil</a>
+            {{ form_end(form) }}
+
+        </div>
+    </div>
+{% endblock %}

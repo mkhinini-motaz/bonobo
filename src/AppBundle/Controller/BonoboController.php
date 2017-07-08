@@ -78,5 +78,34 @@ class BonoboController extends Controller
         return $this->newAction($request);
     }
 
+    /**
+     * Action pour qu'un Bonobo ajout un ami
+     *
+     * @Route("/amis/ajout", name="add-friend")
+     * @Method({"GET", "POST"})
+     */
+    public function newFriendAction(Request $request)
+    {
+        $bonobo = new Bonobo();
+        $currentBonobo = $this->getUser()->getBonobo();
+        $form = $this->createForm('AppBundle\Form\FriendType', $bonobo);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+
+            $em->persist($bonobo);
+            $em->persist($currentBonobo);
+            $em->flush();
+
+        }
+
+        return $this->render('bonobo/addFriend.html.twig', array(
+            'bonobo' => $bonobo,
+            'currentBonobo' => $currentBonobo,
+            'form' => $form->createView(),
+        ));
+
+    }
 
 }
