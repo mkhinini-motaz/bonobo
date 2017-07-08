@@ -37,8 +37,8 @@ class BonoboController extends Controller
 
             $bonobo->getAccount()->setEnabled(1);
             $bonobo->getAccount()->addRole("ROLE_USER");
-	    $bonobo->getAccount()->setBonobo($bonobo);
-            $bonobo->getCompte()->setDateInscription(new \DateTime("now", new \DateTimeZone("Africa/Tunis")));
+	        $bonobo->getAccount()->setBonobo($bonobo);
+            $bonobo->getAccount()->setInscriptionDate(new \DateTime("now", new \DateTimeZone("Africa/Tunis")));
 
             $em->persist($bonobo->getAccount());
             $em->persist($bonobo);
@@ -66,5 +66,17 @@ class BonoboController extends Controller
             'form' => $form->createView(),
         ));
     }
+
+    /**
+     * Action pour intercepter la route register défini par FOSUserBundle et la remplace par la page d'inscription qu'on a créer
+     *
+     * @Route("/register/", name="register")
+     * @Method({"GET", "POST"})
+     */
+    public function registerAction(Request $request)
+    {
+        return $this->newAction($request);
+    }
+
 
 }

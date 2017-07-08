@@ -1,32 +1,18 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <div id="wrapper" class="row">
-        <div id="container" class="col-xs-12">
-            <div id="welcome">
-                <h1><span>Welcome to</span> Symfony {{ constant('Symfony\\Component\\HttpKernel\\Kernel::VERSION') }}</h1>
-            </div>
+    <div class="row">
+        <div class="col-md-6 col-md-push-3 col-xs-12">
+            <p>Bienvenue dans le tous premier site d'amitié pour Bonobo</p>
+            {% if app.user %}
+                <p>Que voulez vous faire ?</p>
+                <a class="btn btn-primary" href="#">Ajouter un ami</a>
+                </br></br>
+                <a class="btn btn-success" href="#">Voir la liste de mes amis</a>
 
-            <div id="status">
-                <p>
-                    Your application is now ready. You can start working on it at:
-                    <code>{{ base_dir }}</code>
-                </p>
-            </div>
-
-            <div id="next">
-                <h2>What's next?</h2>
-                <p>
-                   
-
-                    Read the documentation to learn
-                    <a href="https://symfony.com/doc/{{ constant('Symfony\\Component\\HttpKernel\\Kernel::VERSION')[:3] }}/page_creation.html">
-                        How to create your first page in Symfony
-                    </a>
-                </p>
-            </div>
-
+            {% else %}
+                <p>Connectez vous pour profiter des différents fonctionnalités de notre site</p>
+            {% endif %}
         </div>
     </div>
 {% endblock %}
-
