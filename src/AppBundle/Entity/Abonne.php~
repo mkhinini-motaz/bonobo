@@ -1,0 +1,84 @@
+<?php
+
+namespace AppBundle\Entity;
+
+/**
+ * Abonne
+ */
+class Abonne
+{
+    /**
+     * @var integer
+     */
+    private $id;
+
+    /**
+     * @var string
+     */
+    private $nom;
+
+    /**
+     * @var \AppBundle\Entity\Account
+     */
+    private $account;
+
+
+    /**
+     * Get id
+     *
+     * @return integer
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set nom
+     *
+     * @param string $nom
+     *
+     * @return Abonne
+     */
+    public function setNom($nom)
+    {
+        $this->nom = $nom;
+
+        return $this;
+    }
+
+    /**
+     * Get nom
+     *
+     * @return string
+     */
+    public function getNom()
+    {
+        return $this->nom;
+    }
+
+    /**
+     * Set account
+     *
+     * @param \AppBundle\Entity\Account $account
+     *
+     * @return Abonne
+     */
+    public function setAccount(\AppBundle\Entity\Account $account = null)
+    {
+        $this->account = $account;
+
+        return $this;
+    }
+
+    /**
+     * Get account
+     *
+     * @return \AppBundle\Entity\Account
+     */
+    public function getAccount()
+    {
+        return $this->account;
+    }
+}
+
