@@ -337,4 +337,76 @@ class Bonobo
     {
         return $this->myFamily;
     }
+
+    /**
+     * Supprimer un membre de famille
+     *
+     * @param \AppBundle\Entity\Bonobo $bonobo
+     *
+     * @return \AppBundle\Entity\Family routroune un objet family pour qu'il soit supprimé de la base de données à partir du controlleur
+     */
+    public function removeFromFamily(\AppBundle\Entity\Bonobo $bonobo)
+    {
+        foreach ($this->myFamily as $family) {
+            if ($family->getFamilyMember()->getId() == $bonobo->getId()) {
+                $this->removeMyFamily($family);
+                return $family;
+            }
+        }
+        foreach ($this->familyWithMe as $family) {
+            if ($family->getFamilyMember()->getId() == $bonobo->getId()) {
+                $this->removeFamilyWithMe($family);
+                return $family;
+            }
+        }
+    }
+
+    /**
+     * Vérifier si un Bonobo est ami avec ce Bonobo
+     *
+     * @param \AppBundle\Entity\Bonobo $bonobo
+     *
+     * @return boolean
+     */
+    public function isFriendWith(\AppBundle\Entity\Bonobo $bonobo)
+    {
+        if ($bonobo->getId() == $this->getId()) {
+            return true;
+        foreach ($this->myFriends as $friend) {
+        }
+            if ($friend->getId() == $bonobo->getId()) {
+                return true;
+            }
+        }
+        foreach ($this->friendsWithMe as $friend) {
+            if ($friend->getId() == $bonobo->getId()) {
+                return true;
+            }
+        }
+    }
+
+    /**
+     * Vérifier si un Bonobo est ami avec ce Bonobo
+     *
+     * @param \AppBundle\Entity\Bonobo $bonobo
+     *
+     * @return boolean
+     */
+    public function isFamilyMember(\AppBundle\Entity\Bonobo $bonobo)
+    {
+        if ($bonobo->getId() == $this->getId()) {
+            return true;
+        }
+        foreach ($this->myFamily as $family) {
+            if ($family->getFamilyMember()->getId() == $bonobo->getId()) {
+                return true;
+            }
+        }
+        foreach ($this->familyWithMe as $family) {
+            if ($family->getFamilyMember()->getId() == $bonobo->getId()) {
+                return true;
+            }
+        }
+    }
+
 }

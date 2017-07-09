@@ -93,16 +93,18 @@ class BonoboController extends Controller
      */
     public function newFriendAction(Request $request)
     {
+        $em = $this->getDoctrine()->getManager();
+
+        $bonobos = $em->getRepository('AppBundle:Bonobo')->findALl();
+
         $bonobo = new Bonobo();
         $currentBonobo = $this->getUser()->getBonobo();
         $form = $this->createForm('AppBundle\Form\FriendType', $bonobo);
-        $form->handleRequest($request);
 
+        $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $currentBonobo->addMyFriend($bonobo);
             $bonobo->addFriendsWithMe($currentBonobo);
-
-            $em = $this->getDoctrine()->getManager();
 
             $em->persist($bonobo);
             $em->persist($currentBonobo);
@@ -114,8 +116,7 @@ class BonoboController extends Controller
 
         return $this->render('bonobo/add.html.twig', array(
             'adding' => 'ami',
-            'bonobo' => $bonobo,
-            'currentBonobo' => $currentBonobo,
+            'bonobos' => $bonobos,
             'form' => $form->createView(),
         ));
     }
@@ -128,41 +129,63 @@ class BonoboController extends Controller
      */
     public function newFamilyAction(Request $request)
     {
+        $em = $this->getDoctrine()->getManager();
+
+        $bonobos = $em->getRepository('AppBundle:Bonobo')->findALl();
+
         $bonobo = new Bonobo();
         $currentBonobo = $this->getUser()->getBonobo();
         $form = $this->createForm('AppBundle\Form\FamilyMemberType', $bonobo);
+        $familyData = new Family();
+        $familyForm = $this->createForm('AppBundle\Form\FamilyType', $familyData);
+
         $form->handleRequest($request);
-
+        
         if ($form->isSubmitted() && $form->isValid()) {
-            $myFamily = new Family();
-            $familyWithMe = new Family();
-
             $relation = $form['relation']->getData()['relation'];
 
-            $myFamily->setBonobo($currentBonobo);
-            $myFamily->setFamilyMember($bonobo);
-            $myFamily->setRelation($relation);
-
-            $currentBonobo->addMyFamily($myFamily);
-
-            $em = $this->getDoctrine()->getManager();
-
-            $em->persist($myFamily);
-            $em->persist($bonobo);
-            $em->persist($currentBonobo);
-            $em->flush();
-
-            $this->addFlash('family-add-success', $relation . ' ajouté avec succée');
-            return $this->redirectToRoute('bonobo_show', array('id' => $currentBonobo->getId()));
+            return $this->addFamilyAction($bonobo, $relation);
         }
+
+
 
         return $this->render('bonobo/add.html.twig', array(
             'adding' => 'membre de famille',
-            'bonobo' => $bonobo,
-            'currentBonobo' => $currentBonobo,
+            'bonobos' => $bonobos,
             'form' => $form->createView(),
+            'familyForm' => $familyForm->createView(),
         ));
     }
+
+    /**
+     * Action pour qu'un Bonobo ajout un membre de famille depuis la liste des bonobo du site
+     *
+     * @Route("/ajouterMembreFamille/{id}/{relation}", name="add_family_member")
+     * @Method("GET")
+     */
+    public function addFamilyAction(Bonobo $bonobo, $relation)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $currentBonobo = $this->getUser()->getBonobo();
+
+        $myFamily = new Family();
+        $familyWithMe = new Family();
+
+        $myFamily->setBonobo($currentBonobo);
+        $myFamily->setFamilyMember($bonobo);
+        $myFamily->setRelation($relation);
+
+        $currentBonobo->addMyFamily($myFamily);
+
+        $em->persist($myFamily);
+        $em->persist($bonobo);
+        $em->persist($currentBonobo);
+        $em->flush();
+
+        $this->addFlash('family-add-success', $relation . ' ajouté avec succée');
+        return $this->redirectToRoute('bonobo_show', array('id' => $currentBonobo->getId()));
+    }
+
 
     /**
      * Afficher la liste des amis du Bonobo connecté
@@ -186,4 +209,61 @@ class BonoboController extends Controller
         return $this->render('bonobo/my_family.html.twig');
     }
 
+    /**
+     * supprimer un ami du Bonobo connecté
+     *
+     * @Route("/supprimerAmi/{id}", name="remove_friend")
+     * @Method("GET")
+     */
+    public function deleteFriendAction(Bonobo $bonobo)
+    {
+        $currentBonobo = $this->getUser()->getBonobo();
+
+        $currentBonobo->removeMyFriend($bonobo);
+        $currentBonobo->removeFriendsWithMe($bonobo);
+        $bonobo->removeFriendsWithMe($currentBonobo);
+        $bonobo->removeMyFriend($currentBonobo);
+
+        $em = $this->getDoctrine()->getManager();
+
+        $em->persist($currentBonobo);
+        $em->persist($bonobo);
+        $em->flush();
+
+        $this->addFlash('friend-remove-success','Ami supprimé avec succée');
+        return $this->redirectToRoute('my_friends');
+
+    }
+
+        /**
+         * supprimer un ami du Bonobo connecté
+         *
+         * @Route("/supprimerMembreFamille/{id}", name="remove_family_member")
+         * @Method("GET")
+         */
+        public function deleteFamilyMemberAction(Bonobo $bonobo)
+        {
+            $this->addFlash('family-remove-success','Membre de famille supprimé avec succée');
+
+            $currentBonobo = $this->getUser()->getBonobo();
+
+            $em = $this->getDoctrine()->getManager();
+
+            $family = $currentBonobo->removeFromFamily($bonobo);
+            if ($family) {
+                $em->remove($family);
+            }
+
+            $family = $bonobo->removeFromFamily($currentBonobo);
+            if ($family) {
+                $em->remove($family);
+            }
+
+            $em->persist($currentBonobo);
+            $em->persist($bonobo);
+            $em->flush();
+
+            return $this->redirectToRoute('my_family');
+
+        }
 }

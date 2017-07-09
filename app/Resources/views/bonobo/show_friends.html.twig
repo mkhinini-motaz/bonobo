@@ -8,7 +8,7 @@
                     </a>
                 </td>
                 <td>
-
+                    <a class="btn btn-danger" href="{{ path('remove_friend', {'id': friend.id}) }}">Supprimer</a>
                 </td>
             </tr>
         {% endfor %}
@@ -19,10 +19,9 @@
                     <a href="{{ path('bonobo_show', {'id' : friend.id}) }}">
                         {{ friend.name }}
                     </a>
-
                 </td>
                 <td>
-
+                    <a class="btn btn-danger" href="{{ path('remove_friend', {'id': friend.id}) }}">Supprimer</a>
                 </td>
             </tr>
         {% endfor %}

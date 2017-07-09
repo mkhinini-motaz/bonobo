@@ -9,7 +9,7 @@
                     ( {{ family.relation }} )
                 </td>
                 <td>
-
+                    <a class="btn btn-danger" href="{{ path('remove_family_member', {'id': family.familyMember.id}) }}">Supprimer</a>
                 </td>
             </tr>
         {% endfor %}
@@ -23,7 +23,7 @@
                     ( {{ family.relation }} )
                 </td>
                 <td>
-
+                    <a class="btn btn-danger" href="{{ path('remove_family_member', {'id': family.familyMember.id}) }}">Supprimer</a>
                 </td>
             </tr>
         {% endfor %}

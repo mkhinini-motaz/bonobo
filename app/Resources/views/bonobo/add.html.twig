@@ -5,9 +5,8 @@
 {% endblock %}
 
 {% block body %}
-<div class="row">
-
-    <div class="col-sm-6 col-sm-offset-3 col-xs-12">
+    <div class="row">
+        <div class="col-sm-6 col-sm-offset-3 col-xs-12">
 
             <h1>Ajouter un {{ adding }} à votre liste d'amis</h1>
 
@@ -21,6 +20,39 @@
             <a class="btn btn-success" href="{{ path('homepage') }}"><span class="ion-reply"></span> Revenir à la page d'accueil</a>
             {{ form_end(form) }}
 
+            <div class="col-xs-12">
+                <h3 class="h3">Ajouter un {{ adding }} depuis les membres du site</h3>
+                {% if adding == 'membre de famille' %}
+                    <h4 class="h4">Ajouter en tant que : </h4>
+                    {{ form(familyForm) }}
+                {% endif %}
+                {% for bonobo in bonobos %}
+                    {% if not app.user.bonobo.isFamilyMember(bonobo) and not app.user.bonobo.isFriendWith(bonobo) %}
+                        <div class="col-sm-6 col-xs-12 adding-div">
+                            {{ bonobo.name }}
+                            {% if adding == 'membre de famille' %}
+                                <button data-bonobo="{{bonobo.id}}" class="btn btn-primary family-btn">
+                                    Ajouter au famille
+                                </button>
+                            {% else %}
+                                <a class="btn btn-primary" href="{{ path('add_friend') }}">
+                                    Ajouter ami
+                                </a>
+                            {% endif %}
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
         </div>
     </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        $(".family-btn").click(function () {
+            window.open("{{ app.request.schemeAndHttpHost }}" + "/ajouterMembreFamille/"+ $(this).data("bonobo") + "/" + $('#appbundle_family_relation').val(), '_self');
+        });
+
+    </script>
 {% endblock %}

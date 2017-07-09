@@ -5,6 +5,13 @@
 {% block body %}
     <div class="row">
         <div class="col-sm-4 col-sm-push-4 col-xs-12 event_show">
+            {% for message in app.flashes('friend-add-success') %}
+                <div class="panel panel-success">
+                    <div class="panel-heading">
+                        {{ message }}
+                    </div>
+                </div>
+            {% endfor %}
 
             <h2 class="h2">Mes Amis</h2>
 
