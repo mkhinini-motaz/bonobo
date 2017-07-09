@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier Compte{% endblock %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-sm-6 col-sm-push-3 col-xs-12">
+            <h1 class="h1">Mon Compte</h1>
+            {{ form_start(form) }}
+            {{ form_widget(form) }}
+            <button type="submit" class="btn btn-success">Enregistrer <span class="glyphicon glyphicon-floppy-saved"></span></button>
+            {{ form_end(form) }}
+            </br>
+            <a class="btn btn-info" href="{{ path('bonobo_show', {'id' : app.user.bonobo.id}) }}"><span class="ion-reply"></span> Retour à mon compte</a>
+        </div>
+    </div>
+
+{% endblock %}

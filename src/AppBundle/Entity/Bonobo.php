@@ -368,21 +368,22 @@ class Bonobo
      *
      * @return boolean
      */
-    public function isFriendWith(\AppBundle\Entity\Bonobo $bonobo)
+    public function isNotFriendWith(\AppBundle\Entity\Bonobo $bonobo)
     {
         if ($bonobo->getId() == $this->getId()) {
-            return true;
-        foreach ($this->myFriends as $friend) {
+            return false;
         }
+        foreach ($this->myFriends as $friend) {
             if ($friend->getId() == $bonobo->getId()) {
-                return true;
+                return false;
             }
         }
         foreach ($this->friendsWithMe as $friend) {
             if ($friend->getId() == $bonobo->getId()) {
-                return true;
+                return false;
             }
         }
+        return true;
     }
 
     /**
@@ -392,21 +393,22 @@ class Bonobo
      *
      * @return boolean
      */
-    public function isFamilyMember(\AppBundle\Entity\Bonobo $bonobo)
+    public function isNotFamilyMember(\AppBundle\Entity\Bonobo $bonobo)
     {
         if ($bonobo->getId() == $this->getId()) {
-            return true;
+            return false;
         }
         foreach ($this->myFamily as $family) {
-            if ($family->getFamilyMember()->getId() == $bonobo->getId()) {
-                return true;
+            if ($family->getBonobo()->getId() == $bonobo->getId() || $family->getFamilyMember()->getId() == $bonobo->getId()) {
+                return false;
             }
         }
         foreach ($this->familyWithMe as $family) {
-            if ($family->getFamilyMember()->getId() == $bonobo->getId()) {
-                return true;
+            if ($family->getFamilyMember()->getId() == $bonobo->getId() || $family->getBonobo()->getId() == $bonobo->getId()) {
+                return false;
             }
         }
+        return true;
     }
 
 }

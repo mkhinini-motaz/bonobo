@@ -21,13 +21,16 @@
             {{ form_end(form) }}
 
             <div class="col-xs-12">
-                <h3 class="h3">Ajouter un {{ adding }} depuis les membres du site</h3>
-                {% if adding == 'membre de famille' %}
-                    <h4 class="h4">Ajouter en tant que : </h4>
-                    {{ form(familyForm) }}
-                {% endif %}
+                <div class="add">
+                    <h3 class="h3">Ajouter un {{ adding }} depuis les membres du site</h3>
+                    {% if adding == 'membre de famille' %}
+                        <h4 class="h4">Ajouter en tant que : </h4>
+                        {{ form(familyForm) }}
+                    {% endif %}
+                </div>
+
                 {% for bonobo in bonobos %}
-                    {% if not app.user.bonobo.isFamilyMember(bonobo) and not app.user.bonobo.isFriendWith(bonobo) %}
+                    {% if (app.user.bonobo.isNotFamilyMember(bonobo)) and (app.user.bonobo.isNotFriendWith(bonobo)) %}
                         <div class="col-sm-6 col-xs-12 adding-div">
                             {{ bonobo.name }}
                             {% if adding == 'membre de famille' %}
@@ -35,12 +38,19 @@
                                     Ajouter au famille
                                 </button>
                             {% else %}
-                                <a class="btn btn-primary" href="{{ path('add_friend') }}">
+                                <a class="btn btn-primary friend-btn" href="{{ path('add_to_friends', {'id': bonobo.id}) }}">
                                     Ajouter ami
                                 </a>
                             {% endif %}
                         </div>
                     {% endif %}
+                {% else %}
+                    <h3 class="h3">Aucun membre à ajouter pour le moment, vous les avez tous ajouter</h3>
+                    <script>
+
+                        alert('JI');
+                        $('add').prepend("<h1>dsdf</h1>");
+                    </script>
                 {% endfor %}
             </div>
         </div>

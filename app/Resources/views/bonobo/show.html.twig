@@ -22,7 +22,10 @@
 
             <h2 class="h2">
                 {% if app.user.bonobo.id == bonobo.id  %}
-                    Mon Profile
+                    Mon Compte
+                    <a href="{{ path('bonobo_edit') }}" class="btn-edit-bonobo btn btn-warning">
+                        Modifier <i class="ion-compose"></i>
+                    </a>
                 {% else %}
                     Profile de {{ bonobo.name }}
                 {% endif %}
