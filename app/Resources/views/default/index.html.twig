@@ -15,7 +15,41 @@
                 <a class="btn btn-success col-md-5 col-xs-12" href="#">Voir la liste de mes amis</a>
                 </br></br>
             {% else %}
-                <p>Connectez vous pour profiter des différents fonctionnalités de notre site</p>
+                <p class="text-justify">
+                    Connectez vous pour profiter des différents fonctionnalités de notre site, ce message va <b>disparaître</b> lorsque vous vous <b>connecter</b>
+                    </br>
+                    Ce site est responsive, il a été conçu avec une base de donnée hébérgé sur internet afin de faciliter votre test.
+                    </br>
+                    Le fichier <b>parameters.yml</b> a été volontairement supprimé du fichier <b>.gitignore</b> afin de vous fournir les informations de connexion à la base de données.
+                    </br>
+                    Vous pouvez vous connecter avec les identifiants suivants afin de tester le site :
+                    </br>
+                </p>
+                <table class="table table-striped table-bordered">
+                    <thead>
+                        <th class="text-center text-primary">Login</th>
+                        <th class="text-center text-primary">password</th>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="text-center">bonobo</td>
+                            <td class="text-center">bonobo</td>
+                        </tr>
+                        <tr>
+                            <td class="text-center">bonobo2</td>
+                            <td class="text-center">bonobo2</td>
+                        </tr>
+                        <tr>
+                            <td class="text-center">bonobo3</td>
+                            <td class="text-center">bonobo3</td>
+                        </tr>
+                        <tr>
+                            <td class="text-center">bonobo4</td>
+                            <td class="text-center">bonobo4</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <a href="https://www.github.com/mkhinini-motaz/bonobo">Github <i class="fa fa-github" aria-hidden="true"></i></a>
             {% endif %}
         </div>
     </div>
