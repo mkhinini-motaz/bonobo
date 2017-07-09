@@ -1,20 +1,19 @@
 {% extends 'base.html.twig' %}
 {% block body %}
-
-        {% if app.request.hasPreviousSession %}
-            {% for type, messages in app.session.flashbag.all() %}
-                {% for message in messages %}
-                    <div class="flash-{{ type }}">
-                        {{ message }}
-                    </div>
+    <div class="row">
+        <div class="col-md-6 col-md-push-3 col-xs-12 login_form">
+            {% if app.request.hasPreviousSession %}
+                {% for type, messages in app.session.flashbag.all() %}
+                    {% for message in messages %}
+                        <div class="flash-{{ type }}">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
                 {% endfor %}
-            {% endfor %}
-        {% endif %}
+            {% endif %}
 
-        <div class="row">
-            <div class="col-md-6 col-md-push-3 col-xs-12 login_form">
-                {% block fos_user_content %}
-                {% endblock fos_user_content %}
-            </div>
+            {% block fos_user_content %}
+            {% endblock fos_user_content %}
         </div>
+    </div>
 {% endblock %}

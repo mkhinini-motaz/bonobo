@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ma Famille{% endblock %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-sm-4 col-sm-push-4 col-xs-12 event_show">
+
+            <h2 class="h2">Ma Famille</h2>
+
+            {% if (app.user.bonobo.myFamily is not empty or app.user.bonobo.familyWithMe is not empty) %}
+                {% set bonobo = app.user.bonobo %}
+                {% include 'bonobo/show_family.html.twig' %}
+            {% else %}
+                <h3 class="h3">
+                    Vous n'avez pas encore ajouter des membres de votre famille
+                </h3>
+                <a class="btn btn-primary" href="{{ path('add_family') }}">Ajouter un membre de famille</a>
+            {% endif %}
+
+        </div>
+    </div>
+{% endblock %}

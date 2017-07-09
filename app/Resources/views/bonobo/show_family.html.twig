@@ -1,0 +1,31 @@
+<table class="table table-striped">
+    <tbody>
+        {% for family in app.user.bonobo.myFamily %}
+            <tr>
+                <td>
+                    <a href="{{ path('bonobo_show', {'id' : family.familyMember.id}) }}">
+                        {{ family.familyMember.name }}
+                    </a>
+                    ( {{ family.relation }} )
+                </td>
+                <td>
+
+                </td>
+            </tr>
+        {% endfor %}
+
+        {% for family in app.user.bonobo.familyWithMe %}
+            <tr>
+                <td>
+                    <a href="{{ path('bonobo_show', {'id' : family.bonobo.id}) }}">
+                        {{ family.bonobo.name }}
+                    </a>
+                    ( {{ family.relation }} )
+                </td>
+                <td>
+
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>

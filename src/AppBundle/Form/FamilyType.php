@@ -17,6 +17,8 @@ class FamilyType extends AbstractType
     {
         $builder->add('relation', ChoiceType::class, array(
                     'choices'  => array(
+                        'Grand-Père' => 'Grand-Père',
+                        'Grand-Mère' => 'Grand-Mère',
                         'Père' => 'Père',
                         'Mère' => 'Mère',
                         'Frère' => 'Frère',

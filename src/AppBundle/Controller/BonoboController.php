@@ -30,6 +30,9 @@ class BonoboController extends Controller
      */
     public function newAction(Request $request)
     {
+        if ($this->getUser()) {
+            return $this->redirectToRoute('homepage');
+        }
         $bonobo = new Bonobo();
         $form = $this->createForm('AppBundle\Form\BonoboType', $bonobo);
         $form->handleRequest($request);
@@ -70,17 +73,6 @@ class BonoboController extends Controller
     }
 
     /**
-     * Action pour intercepter la route register défini par FOSUserBundle et la remplace par la page d'inscription qu'on a créer
-     *
-     * @Route("/register/", name="register")
-     * @Method({"GET", "POST"})
-     */
-    public function registerAction(Request $request)
-    {
-        return $this->newAction($request);
-    }
-
-    /**
      * Afficher les informations d'un Bonobo
      *
      * @Route("/bonobo/{id}", name="bonobo_show")
@@ -117,7 +109,7 @@ class BonoboController extends Controller
             $em->flush();
 
             $this->addFlash('friend-add-success','Ami ajouté avec succée');
-            return $this->showAction($currentBonobo);
+            return $this->redirectToRoute('bonobo_show', array('id' => $currentBonobo->getId()));
         }
 
         return $this->render('bonobo/add.html.twig', array(
@@ -171,4 +163,27 @@ class BonoboController extends Controller
             'form' => $form->createView(),
         ));
     }
+
+    /**
+     * Afficher la liste des amis du Bonobo connecté
+     *
+     * @Route("/mesamis", name="my_friends")
+     * @Method("GET")
+     */
+    public function myFriendsAction()
+    {
+        return $this->render('bonobo/my_friends.html.twig');
+    }
+
+    /**
+     * Afficher les membres de la famille du Bonobo connecté
+     *
+     * @Route("/mafamille", name="my_family")
+     * @Method("GET")
+     */
+    public function myFamilyAction()
+    {
+        return $this->render('bonobo/my_family.html.twig');
+    }
+
 }

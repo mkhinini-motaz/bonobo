@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mes Amis{% endblock %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-sm-4 col-sm-push-4 col-xs-12 event_show">
+
+            <h2 class="h2">Mes Amis</h2>
+
+            {% if (app.user.bonobo.myFriends is not empty or app.user.bonobo.friendsWithMe is not empty) %}
+                {% set bonobo = app.user.bonobo %}
+                {% include 'bonobo/show_friends.html.twig' %}
+            {% else %}
+                <h3 class="h3">
+                    Vous n'avez pas encore ajouter des amis
+                </h3>
+                <a class="btn btn-primary col-md-5 col-xs-12" href="{{ path('add_friend') }}">Ajouter un ami</a>
+            {% endif %}
+
+        </div>
+    </div>
+{% endblock %}

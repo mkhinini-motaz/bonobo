@@ -18,10 +18,10 @@
 	    </li>
         {% if app.user %}
             <li class="{{ (app.request.attributes.get('_route') == 'my_friends') ? 'active' }}">
-                <a href="#">Mes Amis <i class="ion-person-stalker" aria-hidden="true"></i></a>
+                <a href="{{ path('my_friends') }}">Mes Amis <i class="ion-person-stalker" aria-hidden="true"></i></a>
             </li>
             <li class="{{ (app.request.attributes.get('_route') == 'my_family') ? 'active' }}">
-                <a href="#">Ma Famille <i class="fa fa-users" aria-hidden="true"></i></a>
+                <a href="{{ path('my_family') }}">Ma Famille <i class="fa fa-users" aria-hidden="true"></i></a>
             </li>
             <li class="{{ (app.request.attributes.get('_route') == 'add_friend') ? 'active' }}">
                 <a href="{{ path('add_friend') }}">Ajouter Ami <span class="glyphicon glyphicon-user"></span></a>

@@ -1,0 +1,30 @@
+<table class="table table-striped">
+    <tbody>
+        {% for friend in bonobo.myFriends %}
+            <tr>
+                <td>
+                    <a href="{{ path('bonobo_show', {'id' : friend.id}) }}">
+                        {{ friend.name }}
+                    </a>
+                </td>
+                <td>
+
+                </td>
+            </tr>
+        {% endfor %}
+
+        {% for friend in bonobo.friendsWithMe %}
+            <tr>
+                <td>
+                    <a href="{{ path('bonobo_show', {'id' : friend.id}) }}">
+                        {{ friend.name }}
+                    </a>
+
+                </td>
+                <td>
+
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>

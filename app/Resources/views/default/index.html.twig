@@ -6,13 +6,13 @@
             <p>Bienvenue dans le tous premier site d'amitié pour Bonobo</p>
             {% if app.user %}
                 <p>Que voulez vous faire ?</p>
-                <a class="hompage-btn btn btn-info col-md-5 col-xs-12" href="{{ path('bonobo_show', {'id' : app.user.bonobo.id}) }}">Voir mon Profile</a>
+                <a class="btn btn-info col-md-5 col-xs-12" href="{{ path('bonobo_show', {'id' : app.user.bonobo.id}) }}">Voir mon Profile</a>
                 </br></br>
-                <a class="hompage-btn btn btn-primary col-md-5 col-xs-12" href="{{ path('add_friend') }}">Ajouter un ami</a>
+                <a class="btn btn-primary col-md-5 col-xs-12" href="{{ path('add_friend') }}">Ajouter un ami</a>
                 </br></br>
-                <a class="hompage-btn btn btn-primary col-md-5 col-xs-12" href="{{ path('add_family') }}">Ajouter un membre de famille</a>
+                <a class="btn btn-primary col-md-5 col-xs-12" href="{{ path('add_family') }}">Ajouter un membre de famille</a>
                 </br></br>
-                <a class="hompage-btn btn btn-success col-md-5 col-xs-12" href="#">Voir la liste de mes amis</a>
+                <a class="btn btn-success col-md-5 col-xs-12" href="#">Voir la liste de mes amis</a>
                 </br></br>
             {% else %}
                 <p>Connectez vous pour profiter des différents fonctionnalités de notre site</p>
