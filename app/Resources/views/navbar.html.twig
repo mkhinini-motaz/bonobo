@@ -8,7 +8,7 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="#">Bonobo</a>
+      <a class="navbar-brand" href="{{ path('homepage') }}">Bonobo</a>
     </div>
 
     <div class="collapse navbar-collapse">
@@ -20,12 +20,18 @@
             <li class="{{ (app.request.attributes.get('_route') == 'my_friends') ? ' class="active"' }}">
                 <a href="#">Mes Amis</a>
             </li>
+            <li class="{{ (app.request.attributes.get('_route') == 'add_friend') ? ' class="active"' }}">
+                <a href="#">Ajouter Ami</a>
+            </li>
         {% endif %}
       </ul>
 
       <ul class="nav navbar-nav navbar-right">
           {% if app.user %}
               <li class="{{ (app.request.attributes.get('_route') == 'fos_user_security_logout') ? ' class="active"' }}">
+                  <a href="{{ path('bonobo_show', {'id' : app.user.bonobo.id}) }}">Mon Compte</a>
+              </li>
+              <li>
                   <a href="{{ path('fos_user_security_logout') }}">Déconnexion</a>
               </li>
 

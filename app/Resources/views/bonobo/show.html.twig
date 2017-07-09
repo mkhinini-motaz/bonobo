@@ -1,0 +1,51 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <div class="row">
+
+        <div class="col-sm-8 col-sm-push-2 col-xs-12 event_show">
+            </br>
+
+            <h2 class="h2">
+                {% if app.user.bonobo.id == bonobo.id  %}
+                    Mon Profile
+                {% else %}
+                    Profile de {{ bonobo.name }}
+                {% endif %}
+            </h2>
+
+            <table class="table table-striped">
+                <tbody>
+                    <tr>
+                        <th>Login</th>
+                        <td>{{ bonobo.account.username }}</td>
+                    </tr>
+                    <tr>
+                        <th>Nom</th>
+                        <td>{{ bonobo.name }}</td>
+                    </tr>
+                    <tr>
+                        <th>Race</th>
+                        <td>{{ bonobo.race }}</td>
+                    </tr>
+                    <tr>
+                        <th>Nourriture</th>
+                        <td>{{ bonobo.food }}</td>
+                    </tr>
+                    <tr>
+                        <th>Email</th>
+                        <td>{{ bonobo.account.email }}</td>
+                    </tr>
+                    {% if not app.user %}
+                        <tr>
+                            <th>Dernier connexion</th>
+                            <td>{{ bonobo.account.lastLogin|date("d/m/Y h:i:s") }}</td>
+                        </tr>
+                    {% endif %}
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+{% endblock %}

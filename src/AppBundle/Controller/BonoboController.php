@@ -79,9 +79,22 @@ class BonoboController extends Controller
     }
 
     /**
+     * Afficher les informations d'un Bonobo
+     *
+     * @Route("/bonobo/{id}", name="bonobo_show")
+     * @Method("GET")
+     */
+    public function showAction(Bonobo $bonobo)
+    {
+        return $this->render('bonobo/show.html.twig', array(
+            'bonobo' => $bonobo,
+        ));
+    }
+
+    /**
      * Action pour qu'un Bonobo ajout un ami
      *
-     * @Route("/amis/ajout", name="add-friend")
+     * @Route("/amis/ajout", name="add_friend")
      * @Method({"GET", "POST"})
      */
     public function newFriendAction(Request $request)
@@ -93,7 +106,7 @@ class BonoboController extends Controller
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-
+            // TODO
             $em->persist($bonobo);
             $em->persist($currentBonobo);
             $em->flush();

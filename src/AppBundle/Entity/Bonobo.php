@@ -57,13 +57,13 @@ class Bonobo
      */
 
 	/**
-     * Liste des Bonobo qui sont amis avec ce Bonobo
+     * Liste des Bonobo qui sont amis avec ce Bonobo, ce champs sera rempli lorsqu'on un Bonobo ajoute ce Bonobo à sa liste d'amis
      * @ORM\ManyToMany(targetEntity="Bonobo", mappedBy="myFriends")
      */
     private $friendsWithMe;
 
     /**
-     * La liste des Bonobo
+     * La liste des amis de ce Bonobo, ce champs sera rempli lorsque ce Bonobo ajoute d'autres Bonbo à sa liste d'amis
      * @ORM\ManyToMany(targetEntity="Bonobo", inversedBy="friendsWithMe")
      * @ORM\JoinTable(name="friends",
      *      joinColumns={@ORM\JoinColumn(name="bonobo_id", referencedColumnName="id")},
@@ -73,14 +73,14 @@ class Bonobo
     private $myFriends;
 
     /**
-     * Liste des Bonobo qui sont de la même famille que ce Bonobo
+     * Liste des Bonobo qui sont de la même famille que ce Bonobo, ce champs sera rempli lorsque un Bonobo ajoute ce Bonobo à sa famille
      * @ORM\OneToMany(targetEntity="Family", mappedBy="myFamily")
      * @ORM\JoinTable(name="family")
      */
     private $familyWithMe;
 
     /**
-     * La liste des Bonobo
+     * La liste de la famille de ce Bonobo, ce champs sera rempli lorsque ce Bonobo ajoute d'autres Bonbo à sa liste de famille
      * @ORM\OneToMany(targetEntity="Family", mappedBy="familyWithMe")
      * @ORM\JoinTable(name="family")
      */
