@@ -1,11 +1,26 @@
 {% extends 'base.html.twig' %}
-
+{% block title %}Profile {{ bonobo.name }}{% endblock %}
 {% block body %}
 
     <div class="row">
 
-        <div class="col-sm-8 col-sm-push-2 col-xs-12 event_show">
+        <div class="col-sm-6 col-sm-push-3 col-xs-12 event_show">
             </br>
+            {% for message in app.flashes('friend-add-success') %}
+                <div class="panel panel-success">
+                    <div class="panel-heading">
+                        {{ message }}
+                    </div>
+                </div>
+            {% endfor %}
+
+            {% for message in app.flashes('family-add-success') %}
+                <div class="panel panel-success">
+                    <div class="panel-heading">
+                        {{ message }}
+                    </div>
+                </div>
+            {% endfor %}
 
             <h2 class="h2">
                 {% if app.user.bonobo.id == bonobo.id  %}
@@ -17,10 +32,12 @@
 
             <table class="table table-striped">
                 <tbody>
-                    <tr>
-                        <th>Login</th>
-                        <td>{{ bonobo.account.username }}</td>
-                    </tr>
+                    {% if bonobo.account %}
+                        <tr>
+                            <th>Login</th>
+                            <td>{{ bonobo.account.username }}</td>
+                        </tr>
+                    {% endif %}
                     <tr>
                         <th>Nom</th>
                         <td>{{ bonobo.name }}</td>
@@ -33,16 +50,71 @@
                         <th>Nourriture</th>
                         <td>{{ bonobo.food }}</td>
                     </tr>
-                    <tr>
-                        <th>Email</th>
-                        <td>{{ bonobo.account.email }}</td>
-                    </tr>
-                    {% if not app.user %}
+                    {% if bonobo.account %}
                         <tr>
-                            <th>Dernier connexion</th>
-                            <td>{{ bonobo.account.lastLogin|date("d/m/Y h:i:s") }}</td>
+                            <th>Email</th>
+                            <td>{{ bonobo.account.email }}</td>
+                        </tr>
+                        {% if not app.user %}
+                            <tr>
+                                <th>Dernier connexion</th>
+                                <td>
+                                    {{ bonobo.account.lastLogin|date("d/m/Y h:i:s") }}
+                                </td>
+                            </tr>
+                        {% endif %}
+                    {% endif %}
+                    {% if (bonobo.myFriends is not empty or bonobo.friendsWithMe is not empty) %}
+                        <tr>
+                            <th>Amis</th>
+                            <td>
+                                {% for friend in bonobo.myFriends %}
+                                    <div class="col-sm-6 col-xs-12">
+                                        <a href="{{ path('bonobo_show', {'id' : friend.id}) }}">
+                                            {{ friend.name }}
+                                        </a>
+                                    </div>
+                                {% endfor %}
+
+                                {% for friend in bonobo.friendsWithMe %}
+                                    <div class="col-sm-6 col-xs-12">
+                                        <a href="{{ path('bonobo_show', {'id' : friend.id}) }}">
+                                            {{ friend.name }}
+                                        </a>
+                                    </div>
+                                {% endfor %}
+                            </td>
                         </tr>
                     {% endif %}
+
+                    {% if (bonobo.myFamily is not empty or bonobo.familyWithMe is not empty) %}
+                        <tr>
+                            <th>Famille</th>
+                            <td>
+
+                                {% for family in bonobo.myFamily %}
+                                    <div class="col-sm-6 col-xs-12">
+                                        <a href="{{ path('bonobo_show', {'id' : family.familyMember.id}) }}">
+                                            {{ family.familyMember.name }}
+                                        </a>
+                                        ( {{ family.relation }} )
+                                    </div>
+
+                                {% endfor %}
+
+                                {% for family in bonobo.familyWithMe %}
+                                    <div class="col-sm-6 col-xs-12">
+                                        <a href="{{ path('bonobo_show', {'id' : family.bonobo.id}) }}">
+                                            {{ family.bonobo.name }}
+                                        </a>
+                                        ( {{ family.relation }} )
+                                    </div>
+                                {% endfor %}
+
+                            </td>
+                        </tr>
+                    {% endif %}
+
                 </tbody>
             </table>
 

@@ -8,7 +8,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 
-class FriendType extends AbstractType
+class FamilyMemberType extends AbstractType
 {
     /**
      * {@inheritdoc}
@@ -17,7 +17,11 @@ class FriendType extends AbstractType
     {
         $builder->add('name', TextType::class, ["label" => "Nom"])
         		->add('race', TextType::class, ["label" => "Race"])
-        		->add('food', TextType::class, ["label" => "Nourriture"]);
+        		->add('food', TextType::class, ["label" => "Nourriture"])
+                ->add('relation', FamilyType::class, ["label" => false
+                                                    , "data_class" => null
+                                                    , "mapped" => false]
+                );
 
     }
 

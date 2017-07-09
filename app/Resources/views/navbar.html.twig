@@ -2,7 +2,7 @@
   <div class="container-fluid">
     <!-- Brand and toggle get grouped for better mobile display -->
     <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-1" aria-expanded="false">
         <span class="sr-only">Toggle navigation</span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
@@ -11,35 +11,41 @@
       <a class="navbar-brand" href="{{ path('homepage') }}">Bonobo</a>
     </div>
 
-    <div class="collapse navbar-collapse">
+    <div class="collapse navbar-collapse" id="navbar-collapse-1">
       <ul class="nav navbar-nav">
-        <li class="{{ (app.request.attributes.get('_route') == 'homepage') ? ' class="active"' }}">
+        <li class="{{ (app.request.attributes.get('_route') == 'homepage') ? ' active' }}">
 		    <a href="{{ path('homepage') }}">Accueil <span class="glyphicon glyphicon-home"></span></a>
 	    </li>
         {% if app.user %}
-            <li class="{{ (app.request.attributes.get('_route') == 'my_friends') ? ' class="active"' }}">
-                <a href="#">Mes Amis</a>
+            <li class="{{ (app.request.attributes.get('_route') == 'my_friends') ? 'active' }}">
+                <a href="#">Mes Amis <i class="ion-person-stalker" aria-hidden="true"></i></a>
             </li>
-            <li class="{{ (app.request.attributes.get('_route') == 'add_friend') ? ' class="active"' }}">
-                <a href="#">Ajouter Ami</a>
+            <li class="{{ (app.request.attributes.get('_route') == 'my_family') ? 'active' }}">
+                <a href="#">Ma Famille <i class="fa fa-users" aria-hidden="true"></i></a>
+            </li>
+            <li class="{{ (app.request.attributes.get('_route') == 'add_friend') ? 'active' }}">
+                <a href="{{ path('add_friend') }}">Ajouter Ami <span class="glyphicon glyphicon-user"></span></a>
+            </li>
+            <li class="{{ (app.request.attributes.get('_route') == 'add_family') ? 'active' }}">
+                <a href="{{ path('add_family') }}">Ajouter Membre de Famille <i class="fa fa-user-circle-o" aria-hidden="true"></i></a>
             </li>
         {% endif %}
       </ul>
 
       <ul class="nav navbar-nav navbar-right">
           {% if app.user %}
-              <li class="{{ (app.request.attributes.get('_route') == 'fos_user_security_logout') ? ' class="active"' }}">
-                  <a href="{{ path('bonobo_show', {'id' : app.user.bonobo.id}) }}">Mon Compte</a>
+              <li class="{{ (app.request.attributes.get('_route') == 'fos_user_security_logout') ? 'active' }}">
+                  <a href="{{ path('bonobo_show', {'id' : app.user.bonobo.id}) }}">Mon Compte <i class="fa fa-id-card-o" aria-hidden="true"></i></a>
               </li>
               <li>
-                  <a href="{{ path('fos_user_security_logout') }}">Déconnexion</a>
+                  <a href="{{ path('fos_user_security_logout') }}">Déconnexion <i class="fa fa-sign-out" aria-hidden="true"></i></a>
               </li>
 
           {% else %}
-              <li class="{{ (app.request.attributes.get('_route') == 'inscription') ? ' class="active"' }}">
+              <li class="{{ (app.request.attributes.get('_route') == 'inscription') ? 'active' }}">
                   <a href="{{ path('inscription') }}">Inscription <i class="fa fa-1x fa-user-plus" aria-hidden="true"></i></a>
               </li>
-              <li class="{{ (app.request.attributes.get('_route') == 'fos_user_security_login') ? ' class="active"' }}">
+              <li class="{{ (app.request.attributes.get('_route') == 'fos_user_security_login') ? 'active' }}">
                   <a href="{{ path('fos_user_security_login') }}">Login <span class="glyphicon glyphicon-log-in"></span></a>
               </li>
 

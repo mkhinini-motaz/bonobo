@@ -74,23 +74,25 @@ class Bonobo
 
     /**
      * Liste des Bonobo qui sont de la même famille que ce Bonobo, ce champs sera rempli lorsque un Bonobo ajoute ce Bonobo à sa famille
-     * @ORM\OneToMany(targetEntity="Family", mappedBy="myFamily")
+     * @ORM\OneToMany(targetEntity="Family", mappedBy="familyMember")
      * @ORM\JoinTable(name="family")
      */
     private $familyWithMe;
 
     /**
      * La liste de la famille de ce Bonobo, ce champs sera rempli lorsque ce Bonobo ajoute d'autres Bonbo à sa liste de famille
-     * @ORM\OneToMany(targetEntity="Family", mappedBy="familyWithMe")
+     * @ORM\OneToMany(targetEntity="Family", mappedBy="bonobo")
      * @ORM\JoinTable(name="family")
      */
     private $myFamily;
 
 
-
     public function __construct() {
+        $this->account = null;
         $this->friendsWithMe = new ArrayCollection();
         $this->myFriends = new ArrayCollection();
+        $this->familyWithMe = new ArrayCollection();
+        $this->myFamily = new ArrayCollection();
     }
 
 
@@ -266,5 +268,73 @@ class Bonobo
     public function getMyFriends()
     {
         return $this->myFriends;
+    }
+
+    /**
+     * Add familyWithMe
+     *
+     * @param \AppBundle\Entity\Family $familyWithMe
+     *
+     * @return Bonobo
+     */
+    public function addFamilyWithMe(\AppBundle\Entity\Family $familyWithMe)
+    {
+        $this->familyWithMe[] = $familyWithMe;
+
+        return $this;
+    }
+
+    /**
+     * Remove familyWithMe
+     *
+     * @param \AppBundle\Entity\Family $familyWithMe
+     */
+    public function removeFamilyWithMe(\AppBundle\Entity\Family $familyWithMe)
+    {
+        $this->familyWithMe->removeElement($familyWithMe);
+    }
+
+    /**
+     * Get familyWithMe
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getFamilyWithMe()
+    {
+        return $this->familyWithMe;
+    }
+
+    /**
+     * Add myFamily
+     *
+     * @param \AppBundle\Entity\Family $myFamily
+     *
+     * @return Bonobo
+     */
+    public function addMyFamily(\AppBundle\Entity\Family $myFamily)
+    {
+        $this->myFamily[] = $myFamily;
+
+        return $this;
+    }
+
+    /**
+     * Remove myFamily
+     *
+     * @param \AppBundle\Entity\Family $myFamily
+     */
+    public function removeMyFamily(\AppBundle\Entity\Family $myFamily)
+    {
+        $this->myFamily->removeElement($myFamily);
+    }
+
+    /**
+     * Get myFamily
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getMyFamily()
+    {
+        return $this->myFamily;
     }
 }

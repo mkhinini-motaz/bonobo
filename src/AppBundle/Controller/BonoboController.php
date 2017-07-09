@@ -2,7 +2,6 @@
 
 namespace AppBundle\Controller;
 
-use AppBundle\Entity\Bonobo;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -13,6 +12,9 @@ use FOS\UserBundle\FOSUserEvents;
 use FOS\UserBundle\Event\FormEvent;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use FOS\UserBundle\Event\FilterUserResponseEvent;
+
+use AppBundle\Entity\Bonobo;
+use AppBundle\Entity\Family;
 
 /**
  * Bonobo controller.
@@ -105,20 +107,68 @@ class BonoboController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $currentBonobo->addMyFriend($bonobo);
+            $bonobo->addFriendsWithMe($currentBonobo);
+
             $em = $this->getDoctrine()->getManager();
-            // TODO
+
             $em->persist($bonobo);
             $em->persist($currentBonobo);
             $em->flush();
 
+            $this->addFlash('friend-add-success','Ami ajouté avec succée');
+            return $this->showAction($currentBonobo);
         }
 
-        return $this->render('bonobo/addFriend.html.twig', array(
+        return $this->render('bonobo/add.html.twig', array(
+            'adding' => 'ami',
             'bonobo' => $bonobo,
             'currentBonobo' => $currentBonobo,
             'form' => $form->createView(),
         ));
-
     }
 
+    /**
+     * Action pour qu'un Bonobo ajout un membre de famille
+     *
+     * @Route("/famille/ajout", name="add_family")
+     * @Method({"GET", "POST"})
+     */
+    public function newFamilyAction(Request $request)
+    {
+        $bonobo = new Bonobo();
+        $currentBonobo = $this->getUser()->getBonobo();
+        $form = $this->createForm('AppBundle\Form\FamilyMemberType', $bonobo);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $myFamily = new Family();
+            $familyWithMe = new Family();
+
+            $relation = $form['relation']->getData()['relation'];
+
+            $myFamily->setBonobo($currentBonobo);
+            $myFamily->setFamilyMember($bonobo);
+            $myFamily->setRelation($relation);
+
+            $currentBonobo->addMyFamily($myFamily);
+
+            $em = $this->getDoctrine()->getManager();
+
+            $em->persist($myFamily);
+            $em->persist($bonobo);
+            $em->persist($currentBonobo);
+            $em->flush();
+
+            $this->addFlash('family-add-success', $relation . ' ajouté avec succée');
+            return $this->redirectToRoute('bonobo_show', array('id' => $currentBonobo->getId()));
+        }
+
+        return $this->render('bonobo/add.html.twig', array(
+            'adding' => 'membre de famille',
+            'bonobo' => $bonobo,
+            'currentBonobo' => $currentBonobo,
+            'form' => $form->createView(),
+        ));
+    }
 }

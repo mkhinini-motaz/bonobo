@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-    Ajouter ami
+    Ajouter {{ adding }}
 {% endblock %}
 
 {% block body %}
@@ -9,7 +9,7 @@
 
     <div class="col-sm-6 col-sm-offset-3 col-xs-12">
 
-            <h1>Ajouter un ami à votre liste d'amis</h1>
+            <h1>Ajouter un {{ adding }} à votre liste d'amis</h1>
 
             {{ form_start(form) }}
             {{ form_widget(form) }}
